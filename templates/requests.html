@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}عرض الطلبات - نظام إدارة الصيانة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title mb-0">
+            <i class="fas fa-list"></i> جميع طلبات الصيانة
+        </h3>
+    </div>
+    <div class="card-body">
+        {% if requests %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>رقم الطلب</th>
+                        <th>التاريخ</th>
+                        <th>الطالب</th>
+                        <th>الهاتف</th>
+                        <th>الفرع</th>
+                        <th>نوع الصيانة</th>
+                        <th>المعدة</th>
+                        <th>العطل</th>
+                        <th>الحالة</th>
+                        <th>الفني المعين</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in requests %}
+                    <tr>
+                        <td><strong>#{{ request[0] }}</strong></td>
+                        <td>{{ request[1] }}</td>
+                        <td>{{ request[2] }}</td>
+                        <td>{{ request[3] }}</td>
+                        <td>{{ request[4] }}</td>
+                        <td>{{ request[5] }}</td>
+                        <td>{{ request[6] }}</td>
+                        <td>{{ request[7] }}</td>
+                        <td>
+                            {% if request[10] == 'open' %}
+                                <span class="badge bg-warning">مفتوح</span>
+                            {% elif request[10] == 'in_progress' %}
+                                <span class="badge bg-info">قيد التنفيذ</span>
+                            {% elif request[10] == 'waiting' %}
+                                <span class="badge bg-secondary">انتظار</span>
+                            {% elif request[10] == 'closed' %}
+                                <span class="badge bg-success">مغلق</span>
+                            {% else %}
+                                <span class="badge bg-light text-dark">{{ request[10] }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ request[9] or 'غير معين' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">لا توجد طلبات صيانة</h4>
+            <p class="text-muted">لم يتم إنشاء أي طلبات صيانة بعد.</p>
+            {% if session.user_role in ['engineer', 'branch', 'admin'] %}
+            <a href="{{ url_for('create_request') }}" class="btn btn-primary btn-custom">
+                <i class="fas fa-plus"></i> إنشاء طلب جديد
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Mobile Cards View (Hidden on Desktop) -->
+<div class="d-md-none">
+    {% for request in requests %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <h6><i class="fas fa-hashtag"></i> رقم الطلب</h6>
+                    <p><strong>#{{ request[0] }}</strong></p>
+                </div>
+                <div class="col-6">
+                    <h6><i class="fas fa-calendar"></i> التاريخ</h6>
+                    <p>{{ request[1] }}</p>
+                </div>
+                <div class="col-12">
+                    <h6><i class="fas fa-user"></i> الطالب</h6>
+                    <p>{{ request[2] }} - {{ request[3] }}</p>
+                </div>
+                <div class="col-6">
+                    <h6><i class="fas fa-building"></i> الفرع</h6>
+                    <p>{{ request[4] }}</p>
+                </div>
+                <div class="col-6">
+                    <h6><i class="fas fa-cog"></i> المعدة</h6>
+                    <p>{{ request[6] }}</p>
+                </div>
+                <div class="col-12">
+                    <h6><i class="fas fa-info-circle"></i> الحالة</h6>
+                    {% if request[10] == 'open' %}
+                        <span class="badge bg-warning">مفتوح</span>
+                    {% elif request[10] == 'in_progress' %}
+                        <span class="badge bg-info">قيد التنفيذ</span>
+                    {% elif request[10] == 'waiting' %}
+                        <span class="badge bg-secondary">انتظار</span>
+                    {% elif request[10] == 'closed' %}
+                        <span class="badge bg-success">مغلق</span>
+                    {% else %}
+                        <span class="badge bg-light text-dark">{{ request[10] }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

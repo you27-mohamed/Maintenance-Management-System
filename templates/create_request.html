@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}إنشاء طلب صيانة - نظام إدارة الصيانة{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-plus-circle"></i> إنشاء طلب صيانة جديد
+                </h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="requester_name" class="form-label">
+                                <i class="fas fa-user"></i> اسم الطالب *
+                            </label>
+                            <input type="text" class="form-control" id="requester_name" name="requester_name" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="phone_number" class="form-label">
+                                <i class="fas fa-phone"></i> رقم الهاتف *
+                            </label>
+                            <input type="tel" class="form-control" id="phone_number" name="phone_number" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="branch" class="form-label">
+                                <i class="fas fa-building"></i> الفرع *
+                            </label>
+                            <select class="form-select" id="branch" name="branch" required>
+                                <option value="">اختر الفرع</option>
+                                {% for branch_id, branch_name in branches %}
+                                <option value="{{ branch_name }}">{{ branch_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="maintenance_type" class="form-label">
+                                <i class="fas fa-tools"></i> نوع الصيانة *
+                            </label>
+                            <select class="form-select" id="maintenance_type" name="maintenance_type" required>
+                                <option value="">اختر نوع الصيانة</option>
+                                {% for type_id, type_name in maintenance_types %}
+                                <option value="{{ type_name }}">{{ type_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="equipment_name" class="form-label">
+                                <i class="fas fa-cog"></i> اسم المعدة *
+                            </label>
+                            <select class="form-select" id="equipment_name" name="equipment_name" required>
+                                <option value="">اختر المعدة</option>
+                                {% for equipment_id, equipment_name in equipment_names %}
+                                <option value="{{ equipment_name }}">{{ equipment_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="fault_type" class="form-label">
+                                <i class="fas fa-exclamation-triangle"></i> نوع العطل *
+                            </label>
+                            <select class="form-select" id="fault_type" name="fault_type" required>
+                                <option value="">اختر نوع العطل</option>
+                                {% for fault_id, fault_name in fault_types %}
+                                <option value="{{ fault_name }}">{{ fault_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="notes" class="form-label">
+                            <i class="fas fa-sticky-note"></i> ملاحظات إضافية
+                        </label>
+                        <textarea class="form-control" id="notes" name="notes" rows="4" placeholder="أضف أي ملاحظات أو تفاصيل إضافية..."></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-success btn-custom w-100">
+                                <i class="fas fa-paper-plane"></i> إرسال الطلب
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ url_for('index') }}" class="btn btn-secondary btn-custom w-100">
+                                <i class="fas fa-arrow-right"></i> رجوع
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Form validation
+document.querySelector('form').addEventListener('submit', function(e) {
+    const requiredFields = ['requester_name', 'phone_number', 'branch', 'maintenance_type', 'equipment_name', 'fault_type'];
+    let isValid = true;
+    
+    requiredFields.forEach(fieldName => {
+        const field = document.getElementById(fieldName);
+        if (!field.value.trim()) {
+            field.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    });
+    
+    if (!isValid) {
+        e.preventDefault();
+        alert('يرجى ملء جميع الحقول المطلوبة');
+    }
+});
+
+// Phone number validation
+document.getElementById('phone_number').addEventListener('input', function() {
+    const phoneRegex = /^[0-9+\-\s()]+$/;
+    if (this.value && !phoneRegex.test(this.value)) {
+        this.classList.add('is-invalid');
+    } else {
+        this.classList.remove('is-invalid');
+    }
+});
+</script>
+{% endblock %}

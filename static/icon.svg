@@ -1,0 +1,16 @@
+<!-- Simple SVG icon for the maintenance app -->
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" fill="#667eea" rx="20"/>
+  <g fill="white" transform="translate(48, 48)">
+    <path d="M72 12L78 18L72 24L66 18Z" />
+    <path d="M48 36L54 42L48 48L42 42Z" />
+    <path d="M96 36L102 42L96 48L90 42Z" />
+    <path d="M24 60L30 66L24 72L18 66Z" />
+    <path d="M120 60L126 66L120 72L114 66Z" />
+    <path d="M48 84L54 90L48 96L42 90Z" />
+    <path d="M96 84L102 90L96 96L90 90Z" />
+    <path d="M72 108L78 114L72 120L66 114Z" />
+    <circle cx="72" cy="66" r="18" fill="none" stroke="white" stroke-width="3"/>
+    <text x="72" y="70" text-anchor="middle" font-family="Arial" font-size="12" fill="white">صيانة</text>
+  </g>
+</svg>

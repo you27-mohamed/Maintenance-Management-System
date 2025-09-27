@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}لوحة الفني - نظام إدارة الصيانة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title mb-0">
+            <i class="fas fa-wrench"></i> لوحة الفني - المهام المعينة
+        </h3>
+    </div>
+    <div class="card-body">
+        {% if notifications %}
+        {% for notification in notifications %}
+        <div class="card mb-3 border-start border-info border-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="card-title">
+                            <i class="fas fa-tasks text-info"></i> 
+                            طلب رقم #{{ notification[1] }}
+                        </h5>
+                        <p class="card-text">{{ notification[4] }}</p>
+                        <small class="text-muted">
+                            <i class="fas fa-clock"></i> {{ notification[5] }}
+                        </small>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="btn-group-vertical" role="group">
+                            <form method="POST" action="{{ url_for('update_status') }}" class="d-inline">
+                                <input type="hidden" name="request_id" value="{{ notification[1] }}">
+                                <input type="hidden" name="status" value="in_progress">
+                                <button type="submit" class="btn btn-warning btn-sm mb-2">
+                                    <i class="fas fa-play"></i> بدء العمل
+                                </button>
+                            </form>
+                            
+                            <form method="POST" action="{{ url_for('update_status') }}" class="d-inline">
+                                <input type="hidden" name="request_id" value="{{ notification[1] }}">
+                                <input type="hidden" name="status" value="closed">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-check"></i> إغلاق الطلب
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-clipboard-check fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">لا توجد مهام جديدة</h4>
+            <p class="text-muted">لم يتم تعيين أي مهام صيانة لك حالياً.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Quick Status Update Panel -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-tachometer-alt"></i> تحديث سريع للحالة
+        </h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('update_status') }}" class="row g-3">
+            <div class="col-md-4">
+                <label for="request_id" class="form-label">رقم الطلب</label>
+                <input type="number" class="form-control" id="request_id" name="request_id" placeholder="#123" required>
+            </div>
+            <div class="col-md-4">
+                <label for="status" class="form-label">الحالة الجديدة</label>
+                <select class="form-select" id="status" name="status" required>
+                    <option value="">اختر الحالة</option>
+                    <option value="in_progress">قيد التنفيذ</option>
+                    <option value="waiting">انتظار قطع غيار</option>
+                    <option value="closed">مكتمل</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-sync"></i> تحديث الحالة
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Confirmation for status changes
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        const status = this.querySelector('input[name="status"]').value;
+        const requestId = this.querySelector('input[name="request_id"]').value;
+        
+        let message = '';
+        if (status === 'in_progress') {
+            message = `هل أنت متأكد من بدء العمل على الطلب #${requestId}؟`;
+        } else if (status === 'closed') {
+            message = `هل أنت متأكد من إغلاق الطلب #${requestId}؟`;
+        }
+        
+        if (message && !confirm(message)) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
+{% endblock %}

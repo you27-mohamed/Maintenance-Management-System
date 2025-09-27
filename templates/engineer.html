@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}لوحة المهندس - نظام إدارة الصيانة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title mb-0">
+            <i class="fas fa-cogs"></i> لوحة المهندس - الإشعارات والمهام
+        </h3>
+    </div>
+    <div class="card-body">
+        {% if notifications %}
+        {% for notification in notifications %}
+        <div class="card mb-3 border-start border-warning border-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="card-title">
+                            <i class="fas fa-bell text-warning"></i> 
+                            طلب رقم #{{ notification[1] }}
+                        </h5>
+                        <p class="card-text">{{ notification[4] }}</p>
+                        <small class="text-muted">
+                            <i class="fas fa-clock"></i> {{ notification[5] }}
+                        </small>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <form method="POST" action="{{ url_for('assign_technician_route') }}" class="d-inline">
+                            <input type="hidden" name="request_id" value="{{ notification[1] }}">
+                            <div class="mb-2">
+                                <select name="technician_name" class="form-select form-select-sm" required>
+                                    <option value="">اختر الفني</option>
+                                    <!-- Technicians will be populated by JavaScript -->
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-user-plus"></i> تعيين الفني
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-bell-slash fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">لا توجد إشعارات جديدة</h4>
+            <p class="text-muted">جميع الطلبات تم التعامل معها.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mt-4">
+    <div class="col-md-6 mb-3">
+        <a href="{{ url_for('create_request') }}" class="card dashboard-card text-decoration-none">
+            <div class="text-center">
+                <i class="fas fa-plus-circle"></i>
+                <h5>إنشاء طلب جديد</h5>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-6 mb-3">
+        <a href="{{ url_for('report') }}" class="card dashboard-card text-decoration-none" style="background: linear-gradient(45deg, #9C27B0, #7B1FA2);">
+            <div class="text-center">
+                <i class="fas fa-chart-bar"></i>
+                <h5>التقارير</h5>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Load technicians for each notification
+document.querySelectorAll('select[name="technician_name"]').forEach(select => {
+    // This would typically load technicians via AJAX
+    // For now, we'll add some static options
+    const options = [
+        'Technician 1',
+        'Technician 2'
+    ];
+    
+    options.forEach(tech => {
+        const option = document.createElement('option');
+        option.value = tech;
+        option.textContent = tech;
+        select.appendChild(option);
+    });
+});
+</script>
+{% endblock %}
