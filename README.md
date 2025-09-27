@@ -1,136 +1,88 @@
-# Maintenance Management System (نظام إدارة الصيانة)
+# 🔧 Maintenance Management System
 
-A comprehensive maintenance management system built with Python, Flet, and SQLite. This application provides a complete solution for managing maintenance requests, technicians, spare parts, and purchase orders in Arabic.
+A comprehensive mobile-ready maintenance management web application converted from desktop to web platform.
 
-## Features
+## 🌟 **Web Application Features**
+- 📱 **Mobile-First Responsive Design**
+- 🌐 **PWA (Progressive Web App) - Installable on Mobile**
+- 🔄 **Arabic RTL Support**
+- 🔐 **Role-Based Access Control (5 Roles)**
+- 📊 **Real-time Statistics Dashboard**
+- 📋 **Complete Maintenance Management**
+- 📈 **Data Export to Excel**
+- 🚀 **Deployed on GitHub & Ready for Cloud**
 
-### 🔐 User Authentication
-- Multi-role authentication system (Admin, Engineer, Technician, Store, Branch)
-- Role-based access control with different dashboards
+## 🚀 **Quick Start**
 
-### 👥 User Roles
-- **Admin**: Full system access, user management, technician management
-- **Engineer**: Create requests, assign technicians, manage purchase orders
-- **Technician**: View assigned tasks, update status, request spare parts
-- **Store**: Manage spare parts availability
-- **Branch**: Create requests and view notifications
+### **Run Locally**
+```bash
+# Activate virtual environment
+source .venv/bin/activate
 
-### 🛠️ Core Functionality
-- **Maintenance Requests**: Create, track, and manage maintenance requests
-- **Technician Assignment**: Assign technicians to specific maintenance tasks
-- **Spare Parts Management**: Request and track spare parts availability
-- **Purchase Orders**: Create and approve purchase orders for unavailable parts
-- **Notifications System**: Real-time notifications for all stakeholders
-- **Reporting**: Generate and export maintenance reports to Excel
+# Run the web application
+python web_app.py
+```
+**Access:** http://localhost:5000 or http://192.168.1.10:5000
 
-### 📊 Data Management
-- Branch management
-- Maintenance types
-- Equipment names
-- Fault types
-- Spare parts catalog
-- User and technician management
+### **Deploy to Cloud**
+```bash
+# Deploy using automated script
+./deploy.sh
+```
 
-## Technical Stack
+## 🔑 **Login Credentials**
+| Username | Password | Role | Access |
+|----------|----------|------|--------|
+| admin | pass123 | Admin | Full Access |
+| engineer | pass123 | Engineer | Engineering |
+| technician | pass123 | Technician | Maintenance |
+| store | pass123 | Store | Parts Management |
+| branch | pass123 | Branch | Branch Operations |
 
-- **Frontend**: Flet (Python GUI framework based on Flutter)
-- **Backend**: Python with SQLite
-- **Database**: SQLite with comprehensive schema
-- **Export**: Pandas for Excel report generation
-- **UI Language**: Arabic (RTL support)
+## 📱 **Mobile Access**
+1. **Visit the web app URL** on any mobile device
+2. **Tap "Add to Home Screen"** for PWA installation
+3. **Use like a native app** with offline support
 
-## Database Schema
+## 🏗️ **Project Structure**
+```
+maintenance-management-system/
+├── web_app.py              # Main Flask application
+├── maintenance.db          # SQLite database
+├── templates/              # HTML templates
+│   ├── base.html          # Base template with PWA
+│   ├── login.html         # Login page
+│   ├── dashboard.html     # Role-based dashboards
+│   └── [other pages]      # Feature pages
+├── static/                # PWA assets
+│   ├── manifest.json      # PWA manifest
+│   ├── sw.js             # Service worker
+│   └── [icons]           # App icons
+├── requirements.txt       # Python dependencies
+├── Dockerfile            # Docker configuration
+├── Procfile             # Heroku deployment
+└── deploy.sh            # Automated deployment
+```
 
-The system includes the following main tables:
-- `MaintenanceRequests`: Core maintenance request data
-- `Technicians`: Technician information and branch assignment
-- `SparePartsRequests`: Spare parts requests
-- `Notifications`: System notifications
-- `PurchaseOrders`: Purchase order management
-- `Users`: User authentication and roles
-- `Branches`, `MaintenanceTypes`, `EquipmentNames`, `FaultTypes`, `SpareParts`: Master data
+## 🗄️ **Database Schema**
+- **12 Tables:** MaintenanceRequests, Users, Technicians, Parts, WorkOrders, etc.
+- **Sample Data:** 12 requests, 15 technicians, 20 parts, 5 users
+- **SQLite:** Lightweight, portable database
 
-## Default Users
+## 🌐 **Deployment Options**
+- ✅ **GitHub:** https://github.com/you27-mohamed/Maintenance-Management-System
+- 🚀 **Railway:** Instant deployment
+- 🆓 **Render:** Free hosting
+- ☁️ **Heroku:** Scalable platform
+- 🐳 **Docker:** Containerized deployment
 
-The system comes with pre-configured users:
-- **admin** / pass123 (Administrator)
-- **engineer** / pass123 (Engineer)
-- **technician** / pass123 (Technician)
-- **store** / pass123 (Store Manager)
-- **branch** / pass123 (Branch User)
+## 🔧 **Technologies Used**
+- **Backend:** Python Flask 2.3.3
+- **Frontend:** Bootstrap 5, PWA
+- **Database:** SQLite
+- **Deployment:** Docker, Gunicorn
+- **Mobile:** Responsive design, Service Worker
 
-## Installation
-
-1. Clone or download the project
-2. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. Install required packages:
-   ```bash
-   pip install flet pandas openpyxl
-   ```
-4. Run the application:
-   ```bash
-   python 14-9.py
-   ```
-
-## Usage
-
-1. Launch the application
-2. Login with one of the default users
-3. Navigate through the different modules based on your role
-4. Create maintenance requests, assign technicians, manage spare parts, etc.
-
-## Features by Role
-
-### Admin Dashboard
-- User management (create, edit, delete users)
-- Technician management
-- Master data management (branches, equipment, fault types, etc.)
-- Full system access
-
-### Engineer Dashboard
-- Create maintenance requests
-- View and respond to notifications
-- Assign technicians to requests
-- Manage purchase orders
-- Generate reports
-
-### Technician Dashboard
-- View assigned maintenance tasks
-- Update task status (start, in progress, complete)
-- Request spare parts
-- Close completed tasks
-
-### Store Dashboard
-- View spare parts requests
-- Update parts availability (available/unavailable)
-- Manage inventory status
-
-### Branch Dashboard
-- Create maintenance requests for their branch
-- View notifications about request status
-
-## Export Functionality
-
-- Generate Excel reports of maintenance requests
-- Filter reports by status and branch
-- Export includes all request details and timestamps
-
-## Database
-
-The application automatically creates and initializes the SQLite database (`maintenance.db`) on first run with sample data including:
-- Default branches (Main Branch, Secondary Branch)
-- Sample technicians
-- Basic maintenance types and equipment
-- Default user accounts
-
-## Notes
-
-- The application uses Arabic text with RTL (Right-to-Left) layout
-- All timestamps are automatically managed
-- The system includes comprehensive notification management
-- Excel export requires the `openpyxl` package
-- The database file will be created in the same directory as the script
+---
+**GitHub Repository:** https://github.com/you27-mohamed/Maintenance-Management-System  
+**Status:** ✅ Production Ready | 📱 Mobile Optimized | 🌍 Globally Deployable
