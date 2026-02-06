@@ -13,6 +13,7 @@
             </div>
             <div class="card-body">
                 <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="requester_name" class="form-label">
@@ -36,8 +37,8 @@
                             </label>
                             <select class="form-select" id="branch" name="branch" required>
                                 <option value="">اختر الفرع</option>
-                                {% for branch_id, branch_name in branches %}
-                                <option value="{{ branch_name }}">{{ branch_name }}</option>
+                                {% for branch in branches %}
+                                <option value="{{ branch.branch_name }}">{{ branch.branch_name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -48,8 +49,8 @@
                             </label>
                             <select class="form-select" id="maintenance_type" name="maintenance_type" required>
                                 <option value="">اختر نوع الصيانة</option>
-                                {% for type_id, type_name in maintenance_types %}
-                                <option value="{{ type_name }}">{{ type_name }}</option>
+                                {% for maintenance_type in maintenance_types %}
+                                <option value="{{ maintenance_type.type_name }}">{{ maintenance_type.type_name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -62,8 +63,8 @@
                             </label>
                             <select class="form-select" id="equipment_name" name="equipment_name" required>
                                 <option value="">اختر المعدة</option>
-                                {% for equipment_id, equipment_name in equipment_names %}
-                                <option value="{{ equipment_name }}">{{ equipment_name }}</option>
+                                {% for equipment in equipment_names %}
+                                <option value="{{ equipment.equipment_name }}">{{ equipment.equipment_name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -74,8 +75,8 @@
                             </label>
                             <select class="form-select" id="fault_type" name="fault_type" required>
                                 <option value="">اختر نوع العطل</option>
-                                {% for fault_id, fault_name in fault_types %}
-                                <option value="{{ fault_name }}">{{ fault_name }}</option>
+                                {% for fault in fault_types %}
+                                <option value="{{ fault.fault_name }}">{{ fault.fault_name }}</option>
                                 {% endfor %}
                             </select>
                         </div>

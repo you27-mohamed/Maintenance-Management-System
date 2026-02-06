@@ -24,6 +24,22 @@ python web_app.py
 ```
 **Access:** http://localhost:5000 or http://192.168.1.10:5000
 
+### **Database Setup (First Run)**
+```bash
+# Create tables
+flask --app web_app.py init-db
+
+# Optional: load sample data
+flask --app web_app.py seed-db
+```
+
+### **Production Environment Variables**
+```
+SECRET_KEY=your-strong-secret
+DATABASE_URL=postgresql://user:pass@host:5432/dbname
+SESSION_TYPE=filesystem
+```
+
 ### **Deploy to Cloud**
 ```bash
 # Deploy using automated script

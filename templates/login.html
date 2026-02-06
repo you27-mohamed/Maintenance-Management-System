@@ -14,6 +14,7 @@
                 </div>
                 
                 <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="mb-3">
                         <label for="username" class="form-label">
                             <i class="fas fa-user"></i> اسم المستخدم
@@ -33,27 +34,6 @@
                     </button>
                 </form>
                 
-                <div class="mt-4">
-                    <h6 class="text-center text-muted">المستخدمون التجريبيون:</h6>
-                    <div class="row text-center mt-3">
-                        <div class="col-6">
-                            <small class="d-block"><strong>admin</strong></small>
-                            <small class="text-muted">pass123</small>
-                        </div>
-                        <div class="col-6">
-                            <small class="d-block"><strong>engineer</strong></small>
-                            <small class="text-muted">pass123</small>
-                        </div>
-                        <div class="col-6 mt-2">
-                            <small class="d-block"><strong>technician</strong></small>
-                            <small class="text-muted">pass123</small>
-                        </div>
-                        <div class="col-6 mt-2">
-                            <small class="d-block"><strong>store</strong></small>
-                            <small class="text-muted">pass123</small>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

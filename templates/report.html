@@ -41,7 +41,7 @@
                 <div class="card bg-primary text-white">
                     <div class="card-body text-center">
                         <i class="fas fa-clipboard-list fa-2x mb-2"></i>
-                        <h4 id="total-count">{{ requests|length }}</h4>
+                        <h4 id="total-count">{{ stats.total }}</h4>
                         <p>إجمالي الطلبات</p>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                 <div class="card bg-warning text-white">
                     <div class="card-body text-center">
                         <i class="fas fa-hourglass-half fa-2x mb-2"></i>
-                        <h4 id="open-count">{{ requests|selectattr('10', 'equalto', 'open')|list|length }}</h4>
+                        <h4 id="open-count">{{ stats.open }}</h4>
                         <p>طلبات مفتوحة</p>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                 <div class="card bg-info text-white">
                     <div class="card-body text-center">
                         <i class="fas fa-cog fa-2x mb-2"></i>
-                        <h4 id="progress-count">{{ requests|selectattr('10', 'equalto', 'in_progress')|list|length }}</h4>
+                        <h4 id="progress-count">{{ stats.in_progress }}</h4>
                         <p>قيد التنفيذ</p>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                 <div class="card bg-success text-white">
                     <div class="card-body text-center">
                         <i class="fas fa-check-circle fa-2x mb-2"></i>
-                        <h4 id="closed-count">{{ requests|selectattr('10', 'equalto', 'closed')|list|length }}</h4>
+                        <h4 id="closed-count">{{ stats.closed }}</h4>
                         <p>مكتملة</p>
                     </div>
                 </div>
@@ -96,30 +96,30 @@
                 </thead>
                 <tbody>
                     {% for request in requests %}
-                    <tr data-status="{{ request[10] }}" data-branch="{{ request[4] }}">
-                        <td><strong>#{{ request[0] }}</strong></td>
-                        <td>{{ request[1] }}</td>
-                        <td>{{ request[2] }}</td>
-                        <td>{{ request[4] }}</td>
-                        <td>{{ request[5] }}</td>
-                        <td>{{ request[6] }}</td>
-                        <td>{{ request[7] }}</td>
+                    <tr data-status="{{ request.status }}" data-branch="{{ request.branch }}">
+                        <td><strong>#{{ request.request_id }}</strong></td>
+                        <td>{{ request.request_date }}</td>
+                        <td>{{ request.requester_name }}</td>
+                        <td>{{ request.branch }}</td>
+                        <td>{{ request.maintenance_type }}</td>
+                        <td>{{ request.equipment_name }}</td>
+                        <td>{{ request.fault_type }}</td>
                         <td>
-                            {% if request[10] == 'open' %}
+                            {% if request.status == 'open' %}
                                 <span class="badge bg-warning">مفتوح</span>
-                            {% elif request[10] == 'in_progress' %}
+                            {% elif request.status == 'in_progress' %}
                                 <span class="badge bg-info">قيد التنفيذ</span>
-                            {% elif request[10] == 'waiting' %}
+                            {% elif request.status == 'waiting' %}
                                 <span class="badge bg-secondary">انتظار</span>
-                            {% elif request[10] == 'closed' %}
+                            {% elif request.status == 'closed' %}
                                 <span class="badge bg-success">مغلق</span>
                             {% else %}
-                                <span class="badge bg-light text-dark">{{ request[10] }}</span>
+                                <span class="badge bg-light text-dark">{{ request.status }}</span>
                             {% endif %}
                         </td>
-                        <td>{{ request[9] or 'غير معين' }}</td>
-                        <td>{{ request[11] or '-' }}</td>
-                        <td>{{ request[12] or '-' }}</td>
+                        <td>{{ request.assigned_technician or 'غير معين' }}</td>
+                        <td>{{ request.start_time or '-' }}</td>
+                        <td>{{ request.end_time or '-' }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

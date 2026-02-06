@@ -18,17 +18,18 @@
                     <div class="col-md-8">
                         <h5 class="card-title">
                             <i class="fas fa-tasks text-info"></i> 
-                            طلب رقم #{{ notification[1] }}
+                            طلب رقم #{{ notification.request_id }}
                         </h5>
-                        <p class="card-text">{{ notification[4] }}</p>
+                        <p class="card-text">{{ notification.message }}</p>
                         <small class="text-muted">
-                            <i class="fas fa-clock"></i> {{ notification[5] }}
+                            <i class="fas fa-clock"></i> {{ notification.created_at }}
                         </small>
                     </div>
                     <div class="col-md-4 text-end">
                         <div class="btn-group-vertical" role="group">
                             <form method="POST" action="{{ url_for('update_status') }}" class="d-inline">
-                                <input type="hidden" name="request_id" value="{{ notification[1] }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="request_id" value="{{ notification.request_id }}">
                                 <input type="hidden" name="status" value="in_progress">
                                 <button type="submit" class="btn btn-warning btn-sm mb-2">
                                     <i class="fas fa-play"></i> بدء العمل
@@ -36,7 +37,8 @@
                             </form>
                             
                             <form method="POST" action="{{ url_for('update_status') }}" class="d-inline">
-                                <input type="hidden" name="request_id" value="{{ notification[1] }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="request_id" value="{{ notification.request_id }}">
                                 <input type="hidden" name="status" value="closed">
                                 <button type="submit" class="btn btn-success btn-sm">
                                     <i class="fas fa-check"></i> إغلاق الطلب
@@ -67,6 +69,7 @@
     </div>
     <div class="card-body">
         <form method="POST" action="{{ url_for('update_status') }}" class="row g-3">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="col-md-4">
                 <label for="request_id" class="form-label">رقم الطلب</label>
                 <input type="number" class="form-control" id="request_id" name="request_id" placeholder="#123" required>
@@ -95,8 +98,10 @@
 // Confirmation for status changes
 document.querySelectorAll('form').forEach(form => {
     form.addEventListener('submit', function(e) {
-        const status = this.querySelector('input[name="status"]').value;
-        const requestId = this.querySelector('input[name="request_id"]').value;
+        const statusField = this.querySelector('[name="status"]');
+        const requestField = this.querySelector('[name="request_id"]');
+        const status = statusField ? statusField.value : '';
+        const requestId = requestField ? requestField.value : '';
         
         let message = '';
         if (status === 'in_progress') {

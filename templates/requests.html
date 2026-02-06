@@ -30,28 +30,28 @@
                 <tbody>
                     {% for request in requests %}
                     <tr>
-                        <td><strong>#{{ request[0] }}</strong></td>
-                        <td>{{ request[1] }}</td>
-                        <td>{{ request[2] }}</td>
-                        <td>{{ request[3] }}</td>
-                        <td>{{ request[4] }}</td>
-                        <td>{{ request[5] }}</td>
-                        <td>{{ request[6] }}</td>
-                        <td>{{ request[7] }}</td>
+                        <td><strong>#{{ request.request_id }}</strong></td>
+                        <td>{{ request.request_date }}</td>
+                        <td>{{ request.requester_name }}</td>
+                        <td>{{ request.phone_number }}</td>
+                        <td>{{ request.branch }}</td>
+                        <td>{{ request.maintenance_type }}</td>
+                        <td>{{ request.equipment_name }}</td>
+                        <td>{{ request.fault_type }}</td>
                         <td>
-                            {% if request[10] == 'open' %}
+                            {% if request.status == 'open' %}
                                 <span class="badge bg-warning">مفتوح</span>
-                            {% elif request[10] == 'in_progress' %}
+                            {% elif request.status == 'in_progress' %}
                                 <span class="badge bg-info">قيد التنفيذ</span>
-                            {% elif request[10] == 'waiting' %}
+                            {% elif request.status == 'waiting' %}
                                 <span class="badge bg-secondary">انتظار</span>
-                            {% elif request[10] == 'closed' %}
+                            {% elif request.status == 'closed' %}
                                 <span class="badge bg-success">مغلق</span>
                             {% else %}
-                                <span class="badge bg-light text-dark">{{ request[10] }}</span>
+                                <span class="badge bg-light text-dark">{{ request.status }}</span>
                             {% endif %}
                         </td>
-                        <td>{{ request[9] or 'غير معين' }}</td>
+                        <td>{{ request.assigned_technician or 'غير معين' }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -80,36 +80,36 @@
             <div class="row">
                 <div class="col-6">
                     <h6><i class="fas fa-hashtag"></i> رقم الطلب</h6>
-                    <p><strong>#{{ request[0] }}</strong></p>
+                    <p><strong>#{{ request.request_id }}</strong></p>
                 </div>
                 <div class="col-6">
                     <h6><i class="fas fa-calendar"></i> التاريخ</h6>
-                    <p>{{ request[1] }}</p>
+                    <p>{{ request.request_date }}</p>
                 </div>
                 <div class="col-12">
                     <h6><i class="fas fa-user"></i> الطالب</h6>
-                    <p>{{ request[2] }} - {{ request[3] }}</p>
+                    <p>{{ request.requester_name }} - {{ request.phone_number }}</p>
                 </div>
                 <div class="col-6">
                     <h6><i class="fas fa-building"></i> الفرع</h6>
-                    <p>{{ request[4] }}</p>
+                    <p>{{ request.branch }}</p>
                 </div>
                 <div class="col-6">
                     <h6><i class="fas fa-cog"></i> المعدة</h6>
-                    <p>{{ request[6] }}</p>
+                    <p>{{ request.equipment_name }}</p>
                 </div>
                 <div class="col-12">
                     <h6><i class="fas fa-info-circle"></i> الحالة</h6>
-                    {% if request[10] == 'open' %}
+                    {% if request.status == 'open' %}
                         <span class="badge bg-warning">مفتوح</span>
-                    {% elif request[10] == 'in_progress' %}
+                    {% elif request.status == 'in_progress' %}
                         <span class="badge bg-info">قيد التنفيذ</span>
-                    {% elif request[10] == 'waiting' %}
+                    {% elif request.status == 'waiting' %}
                         <span class="badge bg-secondary">انتظار</span>
-                    {% elif request[10] == 'closed' %}
+                    {% elif request.status == 'closed' %}
                         <span class="badge bg-success">مغلق</span>
                     {% else %}
-                        <span class="badge bg-light text-dark">{{ request[10] }}</span>
+                        <span class="badge bg-light text-dark">{{ request.status }}</span>
                     {% endif %}
                 </div>
             </div>

@@ -18,20 +18,23 @@
                     <div class="col-md-8">
                         <h5 class="card-title">
                             <i class="fas fa-bell text-warning"></i> 
-                            طلب رقم #{{ notification[1] }}
+                            طلب رقم #{{ notification.request_id }}
                         </h5>
-                        <p class="card-text">{{ notification[4] }}</p>
+                        <p class="card-text">{{ notification.message }}</p>
                         <small class="text-muted">
-                            <i class="fas fa-clock"></i> {{ notification[5] }}
+                            <i class="fas fa-clock"></i> {{ notification.created_at }}
                         </small>
                     </div>
                     <div class="col-md-4 text-end">
                         <form method="POST" action="{{ url_for('assign_technician_route') }}" class="d-inline">
-                            <input type="hidden" name="request_id" value="{{ notification[1] }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="request_id" value="{{ notification.request_id }}">
                             <div class="mb-2">
                                 <select name="technician_name" class="form-select form-select-sm" required>
                                     <option value="">اختر الفني</option>
-                                    <!-- Technicians will be populated by JavaScript -->
+                                    {% for technician in technicians %}
+                                    <option value="{{ technician.technician_name }}">{{ technician.technician_name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary btn-sm">
@@ -74,23 +77,4 @@
 </div>
 {% endblock %}
 
-{% block scripts %}
-<script>
-// Load technicians for each notification
-document.querySelectorAll('select[name="technician_name"]').forEach(select => {
-    // This would typically load technicians via AJAX
-    // For now, we'll add some static options
-    const options = [
-        'Technician 1',
-        'Technician 2'
-    ];
-    
-    options.forEach(tech => {
-        const option = document.createElement('option');
-        option.value = tech;
-        option.textContent = tech;
-        select.appendChild(option);
-    });
-});
-</script>
-{% endblock %}
+{% block scripts %}{% endblock %}
